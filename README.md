@@ -1,69 +1,42 @@
-# Apache Spark 2.0.0 application starter template
+# Learning Apache Cassandra [Video]
+This is the code repository for [Learning Apache Cassandra [Video]](https://www.packtpub.com/big-data-and-business-intelligence/learning-apache-cassandra-video?utm_source=github&utm_medium=repository&utm_campaign=9781787126190), published by [Packt](https://www.packtpub.com/?utm_source=github). It contains all the supporting project files necessary to work through the video course from start to finish.
+## About the Video Course
+Cassandra is a NoSQL database with decentralized, fault-tolerant, scalable, and low-cost features, making it a core component of cloud computing systems. The more recent versions have greatly improved the security features, making it suitable for use in enterprise systems. 
 
-## Features
+In this tutorial, you’ll see how Cassandra overcomes the challenges that relational databases face during high scalability demand. You will become familiar with the Cassandra terminologies, components, and their roles. Then you will learn how to create a multi-node Cassandra structure, understand the roles and responsibilities of Cassandra components, and see the data flow during database operations that demand speed, accuracy, and durability. 
 
-- Can use Spark interactively from the console:
+You will then see how Cassandra stores data onto files on the disk, how to optimize those files to improve performance, and how to monitor the Cassandra database performance using logs and metrics. 
 
-```
-$ sbt
-...
-[spark2-project1]> console
-...
-Welcome to Scala 2.11.8 (Java HotSpot(TM) 64-Bit Server VM, Java 1.8.0_45).
-Type in expressions for evaluation. Or try :help.
+We’ll demonstrate the factors that could affect the performance SLAs of the Cassandra database. Next, you will learn how to optimize the data model to provide performance guarantees and consistent performance SLA over time. You’ll also learn how to build the data model on Cassandra and integrate the database with your application. 
 
-scala> import org.apache.spark.sql.SparkSession; import org.apache.spark.SparkContext; import org.apache.spark.SparkContext._; import org.apache.spark.SparkConf; val conf = new SparkConf().setAppName("Simple Application").setMaster("local").set("spark.rpc.netty.dispatcher.numThreads","2"); val sc = new SparkContext(conf); 
-16/09/02 14:53:41 WARN NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
-import org.apache.spark.sql.SparkSession
-import org.apache.spark.SparkContext
-import org.apache.spark.SparkContext._
-import org.apache.spark.SparkConf
-conf: org.apache.spark.SparkConf = org.apache.spark.SparkConf@6c42f434
-sc: org.apache.spark.SparkContext = org.apache.spark.SparkContext@1d63a678
+In the later sections, you’ll connect with Cassandra from Spark to read and write data. You’ll integrate Cassandra with Spark and learn how to process live streaming data with Spark and persist the data in Cassandra for consumption through the downstream system. 
 
-scala> val logFile = "src/main/resources/log4j.properties"
-logFile: String = src/main/resources/log4j.properties
+By the end of the course, you’ll be able to build powerful, scalable Cassandra database layers for your applications. You’ll design rich schemes to capture the relationships between different data types and master the advanced features available in Cassandra.
 
-scala> val logData = sc.textFile(logFile, 2).cache()
-logData: org.apache.spark.rdd.RDD[String] = src/main/resources/log4j.properties MapPartitionsRDD[1] at textFile at <console>:19
+<H2>What You Will Learn</H2>
+<DIV class=book-info-will-learn-text>
+<UL>
+<LI>Scale up the relational databases and how no SQL databases like Cassandra overcome them 
+<LI>Understand the architecture of Apache Cassandra and how the data are stored 
+<LI>Use the different components of Cassandra; the read path, write path, fault tolerance, replication, consistency model, anti-entropy model as per what your application needs 
+<LI>Start a Cassandra multi-node cluster and understand the role of each critical piece of the distributed system and their interplay 
+<LI>Learn the principles and methodologies for data modelling<SPAN style="BACKGROUND-COLOR: transparent"> in Cassandra</SPAN> 
+<LI>Integrate the database with your application 
+<LI>Migrate existing data from relational databases 
+<LI>Learn how to process live streaming data with Spark and persist the data on to Cassandra for consumption through a downstream system </LI></UL></DIV>
 
-scala> val numAs = logData.filter(line => line.contains("a")).count()
-numAs: Long = 28
+## Instructions and Navigation
+### Assumed Knowledge
+To fully benefit from the coverage included in this course, you will need:<br/>
+This course is for anyone who wants to learn more about Apache Cassandra from the ground up and get a solid understanding of its workings.
+### Technical Requirements
+This course has the following software requirements:<br/>
+Cassandra
 
-scala> val numBs = logData.filter(line => line.contains("b")).count()
-numBs: Long = 7
+## Related Products
+* [AWS Certified Developer - Associate Certification [Video]](https://www.packtpub.com/virtualization-and-cloud/aws-certified-developer-associate-certification-video?utm_source=github&utm_medium=repository&utm_campaign=9781789616118)
 
-scala> val spark = SparkSession.builder().appName("financial_data").master("local").getOrCreate()
-16/09/02 14:55:10 WARN SparkContext: Use an existing SparkContext, some configuration may not take effect.
-spark: org.apache.spark.sql.SparkSession = org.apache.spark.sql.SparkSession@4f045932
+* [Mastering VMware Horizon 7.3 [Video]](https://www.packtpub.com/virtualization-and-cloud/mastering-vmware-horizon-73-video?utm_source=github&utm_medium=repository&utm_campaign=9781789802320)
 
-scala> val opts = Map("url" -> "jdbc:postgresql:somedb", "dbtable" -> "sometableinthedb")
-opts: scala.collection.immutable.Map[String,String] = Map(url -> jdbc:postgresql:somedb, dbtable -> sometableinthedb)
+* [Salesforce Certified Administrator — Revision Guide [Video]](https://www.packtpub.com/business/salesforce-certified-administrator-—-revision-guide-video?utm_source=github&utm_medium=repository&utm_campaign=9781838550813)
 
-scala> val df = spark.read.format("jdbc").options(opts).load
-df: org.apache.spark.sql.DataFrame = ...
-
-scala> df.show(false)
-...
-
-scala> sc.stop()
-```
-
-and then back in the console (ctrl+d):
-
-```
-[spark2-project1]> run
-...
-[info] Running com.example.Hello
-16/07/31 19:30:11 WARN NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
-Lines with a: 28, Lines with b: 7
-[success] Total time: 4 s, completed Jul 31, 2016 7:30:13 PM
-```
-
-## References:
-
-https://stackoverflow.com/questions/31685408/spark-actor-not-found-for-actorselection
-
-https://jaceklaskowski.gitbooks.io/mastering-apache-spark/content/spark-logging.html
-
-https://spark.apache.org/docs/latest/quick-start.html
